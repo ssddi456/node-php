@@ -24,7 +24,7 @@ function runPHP(req, response, next, phpdir){
   });
   
   function create_request () {
-    var env = { 
+    var env = {
       SERVER_SIGNATURE: "NodeJS server at localhost", 
       //The extra path information,
       //as given in the requested URL. 
@@ -161,8 +161,12 @@ function runPHP(req, response, next, phpdir){
 
     var res = [], err = []; 
     
+    var util = require('util');
+    var _env = util._extend({},process.env);
+    util._extend(_env,env);
+
     var php = child.spawn("php-cgi", [], {
-      env: env
+      env: _env
     }); 
     
     php.stdin.on("error", function(){}); 
